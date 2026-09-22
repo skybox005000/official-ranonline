@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="RAN Online PH server selection">
+  <title>RAN Online PH</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/config.js"></script>
+  <script defer src="assets/js/app.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="masthead">
+      <a id="brand" class="brand" href="#" aria-label="RAN Online home">
+        <img id="brand-logo" src="assets/img/ran-logo-v2.png" alt="RAN Online">
+      </a>
+      <a id="social-link" class="facebook" href="#" hidden>
+        <span class="facebook-icon">f</span>
+        <span><small id="social-label"></small><b id="social-handle"></b></span>
+      </a>
+    </div>
+
+    <nav class="nav" aria-label="Primary navigation">
+      <i class="nav-cap nav-cap--left" aria-hidden="true"><b></b><b></b><b></b></i>
+      <div id="nav-left" class="nav-group"></div>
+      <div class="site-title">
+        <strong id="site-name"></strong>
+        <small id="site-tagline"></small>
+      </div>
+      <div id="nav-right" class="nav-group nav-group--right"></div>
+      <i class="nav-cap nav-cap--right" aria-hidden="true"><b></b><b></b><b></b></i>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="games-panel" aria-labelledby="games-title">
+      <h1 id="games-title" class="section-title">Server Selection</h1>
+      <div id="game-list" class="game-list"></div>
+      <nav id="game-pagination" class="game-pagination" aria-label="Server selection pages"></nav>
+    </section>
+
+    <aside class="fact-card" aria-live="polite">
+      <div id="sidebar-image" class="fact-image">
+      </div>
+      <div class="fact-copy">
+        <i aria-hidden="true"></i>
+        <span id="sidebar-label" class="sidebar-label"></span>
+        <h2 id="fact-heading"></h2>
+        <p id="fact-description"></p>
+        <div id="sidebar-dots" class="sidebar-dots" aria-label="Sidebar slides"></div>
+      </div>
+    </aside>
+  </main>
+  <footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

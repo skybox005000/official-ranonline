@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>RAN Online PH Config</title>
+  <link rel="stylesheet" href="assets/css/config-page.css">
+  <script defer src="assets/js/config.js"></script>
+  <script defer src="assets/js/config-page.js"></script>
+</head>
+<body class="config-page">
+  <main class="config-shell">
+    <section class="config-auth" id="authPanel">
+      <img class="config-auth__logo" src="assets/img/ran-logo-v2.png" alt="RAN Online">
+      <h1>Configuration</h1>
+      <p>Manage site data.</p>
+      <form class="config-form" id="authForm">
+        <label><span>Password</span><input id="authPassword" type="password" autocomplete="current-password" required></label>
+        <button class="button button--primary" type="submit">Sign In</button>
+        <p class="config-message" id="authMessage" role="status"></p>
+      </form>
+    </section>
+
+    <section class="config-admin" id="adminPanel" hidden>
+      <header class="config-header">
+        <div><h1>Site Configuration</h1><p>Edit site content, then publish it for everyone.</p></div>
+        <div class="config-header__actions">
+          <a class="button" href="index.html" target="_blank">View Site</a>
+          <button class="button" id="logoutButton" type="button">Log Out</button>
+        </div>
+      </header>
+
+      <section class="config-card">
+        <label class="config-section-picker" for="sectionPicker">
+          <span>Choose section</span>
+          <select id="sectionPicker">
+            <option value="site">Site Settings</option>
+            <option value="branding">Branding</option>
+            <option value="social">Social</option>
+            <option value="servers">Server Selection</option>
+            <option value="sidebar">Sidebar Carousel</option>
+          </select>
+        </label>
+
+        <form id="configForm">
+          <div class="config-sections">
+            <section class="config-content-section" data-config-section="site">
+              <div class="config-content-section__head"><div><h2>Site Settings</h2><p>Browser metadata and shared interface labels.</p></div></div>
+              <div class="config-field-grid">
+                <label class="config-field">Browser title<input name="meta.title" required></label>
+                <label class="config-field config-field--wide">Footer text<textarea name="meta.footer" rows="2"></textarea></label>
+              </div>
+            </section>
+
+            <section class="config-content-section" data-config-section="branding" hidden>
+              <div class="config-content-section__head"><div><h2>Branding</h2><p>Website identity and header copy.</p></div></div>
+              <div class="config-field-grid">
+                <label class="config-field">Site name<input name="brand.name" required></label>
+                <label class="config-field">Tagline<input name="brand.tagline" required></label>
+                <div class="config-field config-field--wide">
+                  <span>Logo image</span>
+                  <div class="config-image-control">
+                    <input name="brand.logo" readonly required>
+                    <label class="button">Upload Photo<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-upload-target="brand.logo"></label>
+                  </div>
+                </div>
+                <label class="config-field config-field--wide">Home URL<input name="brand.homeUrl"></label>
+              </div>
+            </section>
+
+            <section class="config-content-section" data-config-section="social" hidden>
+              <div class="config-content-section__head"><div><h2>Social</h2><p>Control the Facebook card and its link.</p></div></div>
+              <div class="config-field-grid">
+                <label class="config-field config-toggle"><input type="checkbox" name="social.visible"><span>Show Facebook card</span></label>
+                <label class="config-field">Label<input name="social.label"></label>
+                <label class="config-field">Handle<input name="social.handle"></label>
+                <label class="config-field config-field--wide">Facebook URL<input name="social.url"></label>
+              </div>
+            </section>
+
+            <section class="config-content-section" data-config-section="servers" hidden>
+              <div class="config-content-section__head">
+                <div><h2>Server Selection</h2><p>Add, edit, or remove episodes. Five appear per page.</p></div>
+                <button class="button button--primary" id="addEpisodeButton" type="button">Add Episode</button>
+              </div>
+              <div id="episodeEditor" class="config-items"></div>
+            </section>
+
+            <section class="config-content-section" data-config-section="sidebar" hidden>
+              <div class="config-content-section__head"><div><h2>Sidebar Carousel</h2><p>Use this for news, announcements, facts, or coming-soon content.</p></div></div>
+              <div class="config-field-grid">
+                <label class="config-field">Rotation interval (milliseconds)<input type="number" min="3000" name="sidebar.interval"></label>
+              </div>
+              <button class="button button--primary config-add-button" id="addSidebarButton" type="button">Add Slide</button>
+              <div id="sidebarEditor" class="config-items"></div>
+            </section>
+          </div>
+
+          <div class="config-publish-bar">
+            <button class="button config-reset-button" id="resetChangesButton" type="button" disabled>Reset Changes</button>
+            <button class="button button--primary" id="publishButton" type="submit" disabled>Publish Changes</button>
+          </div>
+          <p class="config-message" id="statusMessage" role="status"></p>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <div class="config-editor" id="episodeModal" hidden>
+    <div class="config-editor__dialog" role="dialog" aria-modal="true" aria-labelledby="episodeModalTitle">
+      <form id="episodeForm">
+        <div class="config-editor__head">
+          <div><h2 id="episodeModalTitle">Edit Episode</h2><p>Update this server-selection card.</p></div>
+          <button class="config-editor__close" type="button" aria-label="Close">&times;</button>
+        </div>
+        <div class="config-field-grid">
+          <label class="config-field">Episode<input name="episode" required></label>
+          <label class="config-field">Title<input name="title" required></label>
+          <label class="config-field config-field--wide">Description<textarea name="description" rows="3" required></textarea></label>
+          <div class="config-field config-field--wide">
+            <span>Episode image</span>
+            <div class="config-image-control">
+              <input name="image" readonly required>
+              <label class="button">Upload Photo<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-upload-target="image"></label>
+            </div>
+          </div>
+          <label class="config-field config-field--wide">Details URL<input name="url" required></label>
+        </div>
+        <div class="config-editor__actions">
+          <button class="button" type="button" data-close-modal>Cancel</button>
+          <button class="button button--primary" type="submit">Apply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="config-editor" id="sidebarModal" hidden>
+    <div class="config-editor__dialog" role="dialog" aria-modal="true" aria-labelledby="sidebarModalTitle">
+      <form id="sidebarForm">
+        <div class="config-editor__head">
+          <div><h2 id="sidebarModalTitle">Edit Sidebar Slide</h2><p>News, announcement, fact, or coming-soon content.</p></div>
+          <button class="config-editor__close" type="button" aria-label="Close">&times;</button>
+        </div>
+        <div class="config-field-grid">
+          <label class="config-field">Small label<input name="label"></label>
+          <label class="config-field">Highlighted text<input name="highlight"></label>
+          <label class="config-field config-field--wide">Title<input name="title" required></label>
+          <label class="config-field config-field--wide">Description<textarea name="description" rows="4" required></textarea></label>
+          <div class="config-field config-field--wide">
+            <span>Slide image</span>
+            <div class="config-image-control">
+              <input name="image" readonly required>
+              <label class="button">Upload Photo<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-upload-target="image"></label>
+            </div>
+          </div>
+        </div>
+        <div class="config-editor__actions">
+          <button class="button" type="button" data-close-sidebar>Cancel</button>
+          <button class="button button--primary" type="submit">Apply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
