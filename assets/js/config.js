@@ -1,8 +1,8 @@
-﻿const defaults = {
+const defaults = {
   meta: {
     title: "RAN Online PH",
     description: "RAN Online PH server selection",
-    footer: "Â© RAN Online PH. All rights reserved.",
+    footer: "© RAN Online PH. All rights reserved.",
   },
   brand: {
     name: "CLPL DEVELOPMENTS",
@@ -14,15 +14,15 @@
     visible: true,
     label: "Like us on Facebook",
     handle: "fb.com/clpl.developments",
-    url: "#",
+    url: "https://www.facebook.com/clpl.developments",
   },
   navigation: [
     { label: "Home", url: "#", position: "left", active: true },
-    { label: "News", url: "#news", position: "left" },
-    { label: "Guide", url: "#guide", position: "left" },
-    { label: "Download", url: "#download", position: "right" },
-    { label: "About Us", url: "#about", position: "right" },
-    { label: "Support", url: "#support", position: "right" },
+    { label: "News", url: "#", position: "left" },
+    { label: "Guide", url: "#", position: "left" },
+    { label: "Download", url: "#", position: "right" },
+    { label: "About Us", url: "#", position: "right" },
+    { label: "Support", url: "#", position: "right" },3
   ],
   serverSelection: {
     title: "Server Selection",
@@ -34,6 +34,9 @@
         description: "The battle continues in a world full of chaos and opportunities. Prove your might and survive.",
         image: "assets/img/episode-7-v2.png",
         url: "#",
+        status: "Online",
+        launchedAt: "2026-07-01",
+        locked: false,
       },
       {
         episode: "Episode 6",
@@ -41,6 +44,8 @@
         description: "A new era of school wars begins. Stronger, faster, and more intense!",
         image: "assets/img/episode-6-v2.png",
         url: "#",
+        status: "Coming Soon",
+        locked: true,
       },
       {
         episode: "Episode 5",
@@ -48,6 +53,8 @@
         description: "Rise as a new generation of warriors. The dawn of a new war has begun.",
         image: "assets/img/episode-5-v2.png",
         url: "#",
+        status: "Coming Soon",
+        locked: true,
       },
       {
         episode: "Episode 4",
@@ -55,6 +62,8 @@
         description: "Push your limits and reach the next level of power and domination.",
         image: "assets/img/episode-4-v2.png",
         url: "#",
+        status: "Coming Soon",
+        locked: true,
       },
       {
         episode: "Episode 3",
@@ -62,11 +71,13 @@
         description: "Rebuild. Reclaim. Rise again. The legend lives on.",
         image: "assets/img/episode-3-v2.png",
         url: "#",
+        status: "Coming Soon",
+        locked: true,
       },
     ],
   },
   fact: {
-    lead: "Did you know? Online RPG OG â€˜RAN Onlineâ€™ is",
+    lead: "Did you know? Online RPG OG ‘RAN Online’ is",
     highlight: "22 years old",
     description: "RAN Online PH was officially released in the Philippines on",
     emphasizedText: "January 24, 2006",
@@ -80,7 +91,7 @@
         id: "ran-history",
         image: "assets/img/fact-group-v2.png",
         label: "Did you know?",
-        title: "Online RPG OG â€˜RAN Onlineâ€™ is",
+        title: "Online RPG OG ‘RAN Online’ is",
         highlight: "22 years old",
         description: "RAN Online PH was officially released in the Philippines on January 24, 2006. It was one of the most popular MMORPGs in the country during that period.",
       },
@@ -98,7 +109,7 @@
         label: "Limited KOTH event",
         title: "King of the Hill",
         highlight: "Coming Soon",
-        description: "Who stands among the strongest individuals in the game? Enter Suryunâ€™s King of the Hill and fight alone against the toughest challengers. Defeat your rivals, hold the summit, and prove that you are the strongest.",
+        description: "Who stands among the strongest individuals in the game? Enter Suryun’s King of the Hill and fight alone against the toughest challengers. Defeat your rivals, hold the summit, and prove that you are the strongest.",
       },
     ],
   },
@@ -134,6 +145,19 @@ window.ASSET_STORAGE_KEY = "ran-online-image-assets";
 const loadSavedConfig = () => {
   try {
     const saved = JSON.parse(localStorage.getItem(window.CONFIG_STORAGE_KEY)) ?? {};
+    if ((saved.siteContentVersion || 0) < 4) {
+      saved.siteContentVersion = 4;
+      saved.social = {
+        ...(saved.social || {}),
+        visible: true,
+        label: "Like us on Facebook",
+        handle: "fb.com/clpl.developments",
+        url: "https://www.facebook.com/clpl.developments",
+      };
+      saved.navigation?.forEach((item) => {
+        if (item.label === "Ranking") item.label = "About Us";
+      });
+    }
     if (saved.sidebar?.slides && saved.sidebar.samplesVersion !== defaults.sidebar.samplesVersion) {
       defaults.sidebar.slides.slice(1).forEach((sample) => {
         const existing = saved.sidebar.slides.find((slide) =>
@@ -165,4 +189,3 @@ try {
   window.siteAssetOverrides = {};
 }
 window.resolveSiteAsset = (path) => window.siteAssetOverrides[path] || path;
-

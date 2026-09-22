@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="RAN Online PH server selection">
   <title>RAN Online PH</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon-ran-light.png">
   <link rel="stylesheet" href="assets/css/style.css">
   <script defer src="assets/js/config.js"></script>
   <script defer src="assets/js/app.js"></script>
@@ -16,7 +17,7 @@
         <img id="brand-logo" src="assets/img/ran-logo-v2.png" alt="RAN Online">
       </a>
       <a id="social-link" class="facebook" href="#" hidden>
-        <span class="facebook-icon">f</span>
+        <span class="facebook-brand"><img src="assets/img/clpl-developments.png" alt=""></span>
         <span><small id="social-label"></small><b id="social-handle"></b></span>
       </a>
     </div>
@@ -30,6 +31,12 @@
       </div>
       <div id="nav-right" class="nav-group nav-group--right"></div>
       <i class="nav-cap nav-cap--right" aria-hidden="true"><b></b><b></b><b></b></i>
+      <div id="audio-player" class="audio-player" aria-label="Background music player">
+        <button id="audio-toggle" class="audio-player__toggle" type="button" aria-label="Mute background music" aria-pressed="true">
+          <span class="audio-player__icon" aria-hidden="true"></span>
+        </button>
+        <audio id="site-audio" src="assets/audio/RAN%20Online.ogg" preload="auto" loop></audio>
+      </div>
     </nav>
   </header>
 
@@ -53,5 +60,14 @@
     </aside>
   </main>
   <footer id="site-footer" class="site-footer"></footer>
+
+  <div id="content-modal" class="content-modal" hidden>
+    <div class="content-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button id="modal-close" class="content-modal__close" type="button" aria-label="Close">&times;</button>
+      <span id="modal-eyebrow" class="content-modal__eyebrow"></span>
+      <h2 id="modal-title"></h2>
+      <div id="modal-body" class="content-modal__body"></div>
+    </div>
+  </div>
 </body>
 </html>
