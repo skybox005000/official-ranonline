@@ -1,0 +1,63 @@
+name: Deploy Development Site
+
+on:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: official-ranonline-development
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to DigitalOcean
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DO_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Verify deployment target
+        env:
+          DEPLOY_HOST: ${{ secrets.DO_HOST }}
+          DEPLOY_USER: ${{ secrets.DO_USER }}
+          DEPLOY_PATH: ${{ secrets.DO_SITE_PATH }}
+        run: |
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "test -d '$DEPLOY_PATH'"
+
+      - name: Sync site files
+        env:
+          DEPLOY_HOST: ${{ secrets.DO_HOST }}
+          DEPLOY_USER: ${{ secrets.DO_USER }}
+          DEPLOY_PATH: ${{ secrets.DO_SITE_PATH }}
+        run: |
+          rsync -az --delete-delay \
+            --exclude '/.git/' \
+            --exclude '/.github/' \
+            --exclude '/assets/js/published-data.js' \
+            --exclude '/assets/img/***' \
+            ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+
+      - name: Validate deployed site
+        env:
+          DEPLOY_HOST: ${{ secrets.DO_HOST }}
+          DEPLOY_USER: ${{ secrets.DO_USER }}
+          DEPLOY_PATH: ${{ secrets.DO_SITE_PATH }}
+        run: |
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "test -f '$DEPLOY_PATH/index.html' && test -f '$DEPLOY_PATH/assets/js/app.js' && test -f '$DEPLOY_PATH/assets/js/published-data.js'"

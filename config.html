@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,6 +8,7 @@
   <link rel="icon" type="image/png" href="assets/img/favicon-ran-light.png">
   <link rel="stylesheet" href="assets/css/config-page.css">
   <script defer src="assets/js/config.js"></script>
+  <script defer src="assets/js/published-data.js"></script>
   <script defer src="assets/js/config-page.js"></script>
 </head>
 <body class="config-page">
@@ -39,7 +40,10 @@
             <option value="site">Site Settings</option>
             <option value="branding">Branding</option>
             <option value="social">Social</option>
+            <option value="downloads">Downloads</option>
             <option value="servers">Server Selection</option>
+            <option value="news">News</option>
+            <option value="changelogs">Changelogs</option>
             <option value="sidebar">Sidebar Carousel</option>
           </select>
         </label>
@@ -80,6 +84,16 @@
               </div>
             </section>
 
+            <section class="config-content-section" data-config-section="downloads" hidden>
+              <div class="config-content-section__head">
+                <div><h2>Downloads</h2><p>Download templates are created automatically for every server-selection entry.</p></div>
+              </div>
+              <div id="downloadEditor" class="config-items"></div>
+              <div class="config-field-grid">
+                <label class="config-field config-field--wide">Installation guide<textarea name="downloads.installation.content" rows="7"></textarea></label>
+              </div>
+            </section>
+
             <section class="config-content-section" data-config-section="servers" hidden>
               <div class="config-content-section__head">
                 <div><h2>Server Selection</h2><p>Add, edit, or remove episodes. Five appear per page.</p></div>
@@ -88,7 +102,27 @@
               <div id="episodeEditor" class="config-items"></div>
             </section>
 
-            <section class="config-content-section" data-config-section="sidebar" hidden>
+
+            <section class="config-content-section" data-config-section="news" hidden>
+              <div class="config-content-section__head">
+                <div><h2>News</h2><p>Publish the updates that players need: releases, maintenance, events, patches, and community notices.</p></div>
+                <button class="button button--primary" id="addNewsButton" type="button">Add News</button>
+              </div>
+              <div class="config-field-grid">
+                <label class="config-field config-field--wide">News heading<input name="news.title" required></label>
+              </div>
+              <div id="newsEditor" class="config-items"></div>
+            </section>
+            <section class="config-content-section" data-config-section="changelogs" hidden>
+              <div class="config-content-section__head">
+                <div><h2>Changelogs</h2><p>Publish version history, fixes, balance updates, and release notes.</p></div>
+                <button class="button button--primary" id="addChangelogButton" type="button">Add Changelog</button>
+              </div>
+              <div class="config-field-grid">
+                <label class="config-field config-field--wide">Changelog heading<input name="changelogs.title" required></label>
+              </div>
+              <div id="changelogEditor" class="config-items"></div>
+            </section><section class="config-content-section" data-config-section="sidebar" hidden>
               <div class="config-content-section__head"><div><h2>Sidebar Carousel</h2><p>Use this for news, announcements, facts, or coming-soon content.</p></div></div>
               <div class="config-field-grid">
                 <label class="config-field">Rotation interval (milliseconds)<input type="number" min="3000" name="sidebar.interval"></label>
@@ -103,6 +137,7 @@
             <button class="button button--primary" id="publishButton" type="submit" disabled>Publish Changes</button>
           </div>
           <p class="config-message" id="statusMessage" role="status"></p>
+          <p class="config-publish-target" id="publishTargetMessage">Publishing in local server</p>
         </form>
       </section>
     </section>
@@ -118,7 +153,11 @@
         <div class="config-field-grid">
           <label class="config-field">Episode<input name="episode" required></label>
           <label class="config-field">Title<input name="title" required></label>
+          <label class="config-field">Status<input name="status" placeholder="Online"></label>
+          <label class="config-field">Server age<input name="ageLabel" placeholder="Example: 1 Month Old"></label>
+          <label class="config-field config-toggle"><input type="checkbox" name="locked"><span>Coming soon / locked</span></label>
           <label class="config-field config-field--wide">Description<textarea name="description" rows="3" required></textarea></label>
+          <label class="config-field config-field--wide">Server details<textarea name="details" rows="4" placeholder="Add server rates, features, schedule, or launch notes."></textarea></label>
           <div class="config-field config-field--wide">
             <span>Episode image</span>
             <div class="config-image-control">
@@ -163,5 +202,110 @@
       </form>
     </div>
   </div>
+
+  <div class="config-editor" id="downloadModal" hidden>
+    <div class="config-editor__dialog" role="dialog" aria-modal="true" aria-labelledby="downloadModalTitle">
+      <form id="downloadForm">
+        <div class="config-editor__head">
+          <div><h2 id="downloadModalTitle">Edit Download</h2><p>Update this client download provider.</p></div>
+          <button class="config-editor__close" type="button" aria-label="Close">&times;</button>
+        </div>
+        <div class="config-field-grid">
+          <label class="config-field">Provider name<input name="title" required></label>
+          <label class="config-field">Badge<input name="version" placeholder="Official"></label>
+          <label class="config-field config-field--wide">Description<textarea name="description" rows="3" required></textarea></label>
+          <label class="config-field config-field--wide">Download URL<input name="link" required></label>
+          <div class="config-field config-field--wide">
+            <span>Provider logo</span>
+            <div class="config-image-control">
+              <input name="logo" readonly>
+              <label class="button">Upload Logo<input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" data-upload-target="logo"></label>
+            </div>
+          </div>
+        </div>
+        <div class="config-editor__actions">
+          <button class="button" type="button" data-close-download>Cancel</button>
+          <button class="button button--primary" type="submit">Apply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="config-editor" id="changelogModal" hidden>
+    <div class="config-editor__dialog" role="dialog" aria-modal="true" aria-labelledby="changelogModalTitle">
+      <form id="changelogForm">
+        <div class="config-editor__head">
+          <div><h2 id="changelogModalTitle">Edit Changelog</h2><p>Record an update players can review later.</p></div>
+          <button class="config-editor__close" type="button" aria-label="Close">&times;</button>
+        </div>
+        <div class="config-field-grid">
+          <label class="config-field">Version<input name="version" placeholder="Example: v1.2.0" required></label>
+          <label class="config-field">Release date<input name="date" type="date" required></label>
+          <label class="config-field config-field--wide">Summary<textarea name="summary" rows="3" required></textarea></label>
+          <label class="config-field config-field--wide">Release notes<textarea name="details" rows="9" required></textarea></label>
+        </div>
+        <div class="config-editor__actions">
+          <button class="button" type="button" data-close-changelog>Cancel</button>
+          <button class="button button--primary" type="submit">Apply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="config-editor" id="newsModal" hidden>
+    <div class="config-editor__dialog" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
+      <form id="newsForm">
+        <div class="config-editor__head">
+          <div><h2 id="newsModalTitle">Edit News</h2><p>Publish a complete player-facing update.</p></div>
+          <button class="config-editor__close" type="button" aria-label="Close">&times;</button>
+        </div>
+        <div class="config-field-grid">
+          <label class="config-field config-field--wide">Headline<input name="title" required></label>
+          <label class="config-field">Category
+  <select name="category">
+    <option value="Announcement">Announcement</option>
+    <option value="Event">Event</option>
+    <option value="Patch Notes">Patch Notes</option>
+    <option value="Maintenance">Maintenance</option>
+    <option value="Server Update">Server Update</option>
+    <option value="Community">Community</option>
+    <option value="Download">Download</option>
+    <option value="Guide">Guide</option>
+    <option value="Character Preview">Character Preview</option>
+    <option value="Security Notice">Security Notice</option>
+    <option value="Promotion">Promotion</option>
+    <option value="Test Patch">Test Patch</option>
+    <option value="Test Notice">Test Notice</option>
+    <option value="Test Event">Test Event</option>
+    <option value="Test Community">Test Community</option>
+    <option value="Test Download">Test Download</option>
+  </select>
+</label>
+          <label class="config-field">Custom category (optional)<input name="customCategory" placeholder="Example: Tournament"></label>
+          <label class="config-field">Accent color<input name="color" type="color" value="#c6923d"></label>
+          <label class="config-field">Publish date<input name="date" type="date" required></label>
+          <label class="config-field config-field--wide">Summary<textarea name="excerpt" rows="3" required></textarea></label>
+          <label class="config-field config-field--wide">Full news details<textarea name="details" rows="7" required></textarea></label>
+          <div class="config-field config-field--wide">
+            <span>News image</span>
+            <div class="config-image-control">
+              <input name="image" readonly required>
+              <label class="button">Upload Photo<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-upload-target="image"></label>
+            </div>
+          </div>
+          <label class="config-field config-field--wide">Source URL (optional)<input name="url" placeholder="https://"></label>
+        </div>
+        <div class="config-editor__actions">
+          <button class="button" type="button" data-close-news>Cancel</button>
+          <button class="button button--primary" type="submit">Apply</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
+
+
+
+
+
+

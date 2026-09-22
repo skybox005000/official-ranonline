@@ -4,10 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="RAN Online PH server selection">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="RAN Online PH">
+  <meta property="og:description" content="RAN Online PH server selection">
+  <meta property="og:url" content="https://officialranonlineph.com/">
+  <meta property="og:image" content="https://officialranonlineph.com/assets/img/ran-link-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="RAN Online">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RAN Online PH">
+  <meta name="twitter:description" content="RAN Online PH server selection">
+  <meta name="twitter:image" content="https://officialranonlineph.com/assets/img/ran-link-preview.png">
   <title>RAN Online PH</title>
   <link rel="icon" type="image/png" href="assets/img/favicon-ran-light.png">
   <link rel="stylesheet" href="assets/css/style.css">
   <script defer src="assets/js/config.js"></script>
+  <script defer src="assets/js/published-data.js"></script>
   <script defer src="assets/js/app.js"></script>
 </head>
 <body>
@@ -33,7 +46,16 @@
       <i class="nav-cap nav-cap--right" aria-hidden="true"><b></b><b></b><b></b></i>
       <div id="audio-player" class="audio-player" aria-label="Background music player">
         <button id="audio-toggle" class="audio-player__toggle" type="button" aria-label="Mute background music" aria-pressed="true">
-          <span class="audio-player__icon" aria-hidden="true"></span>
+          <svg class="audio-player__icon audio-player__icon--on" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 9v6h4l6 5V4L8 9H4z"></path>
+            <path d="M17 8.5c1 1 1.5 2.2 1.5 3.5S18 14.5 17 15.5"></path>
+            <path d="M19.5 6c1.7 1.7 2.5 3.7 2.5 6s-.8 4.3-2.5 6"></path>
+          </svg>
+          <svg class="audio-player__icon audio-player__icon--off" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 9v6h4l6 5V4L8 9H4z"></path>
+            <path d="M18 9l4 4"></path>
+            <path d="M22 9l-4 4"></path>
+          </svg>
         </button>
         <audio id="site-audio" src="assets/audio/RAN%20Online.ogg" preload="auto" loop></audio>
       </div>
