@@ -1,4 +1,4 @@
-﻿const defaultDownloadItems = [
+const defaultDownloadItems = [
   {
     title: "Mega NZ",
     description: "Official RAN Online client download via Mega NZ.",
@@ -167,6 +167,7 @@ const defaultNewsItems = [
 const defaults = {
   meta: {
     title: "RAN Online PH",
+    version: "v1.1.0",
     description: "RAN Online PH server selection",
     footer: "(c) RAN Online PH. All rights reserved.",
   },
@@ -206,11 +207,17 @@ const defaults = {
     title: "Latest News",
     items: defaultNewsItems,
   },
-  changelogs: {
-    title: "Changelogs",
-    items: [],
-  },
-  fact: {
+  changelog: {
+    title: "Changelog",
+    entries: [
+      {
+        version: "v1.1.0",
+        date: "2026-09-22",
+        summary: "News center refresh and site navigation update.",
+        details: "News is now the home view, with Servers available through its own route.\n\n- Added a paginated news feed with category accents and Read More details.\n- Added upload-backed news artwork support and the latest official event posters.\n- Added News categories, custom accent colors, and improved mobile image presentation.\n- Added clean local and deployed routing for Home and Servers.\n- Refined modals, locked-server icons, and text rendering across the site.",
+      },
+    ],
+  },  fact: {
     lead: "Did you know? Online RPG OG 'RAN Online' is",
     highlight: "22 years old",
     description: "RAN Online PH was officially released in the Philippines on",
@@ -274,12 +281,11 @@ const mergeConfig = (base, overrides) => ({
     ...overrides.news,
     items: overrides.news?.items ?? base.news.items,
   },
-  changelogs: {
-    ...base.changelogs,
-    ...overrides.changelogs,
-    items: overrides.changelogs?.items ?? base.changelogs.items,
-  },
-  fact: { ...base.fact, ...overrides.fact },
+  changelog: {
+    ...base.changelog,
+    ...overrides.changelog,
+    entries: overrides.changelog?.entries ?? base.changelog.entries,
+  },  fact: { ...base.fact, ...overrides.fact },
   sidebar: {
     ...base.sidebar,
     ...overrides.sidebar,
@@ -393,16 +399,3 @@ try {
   window.siteAssetOverrides = {};
 }
 window.resolveSiteAsset = (path) => window.siteAssetOverrides[path] || path;
-
-
-
-
-
-
-
-
-
-
-
-
-

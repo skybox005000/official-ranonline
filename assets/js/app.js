@@ -1,4 +1,4 @@
-﻿const config = window.createSiteConfig
+const config = window.createSiteConfig
   ? window.createSiteConfig(window.siteConfig || {})
   : window.siteConfig;
 
@@ -145,25 +145,30 @@ const renderNewsList = () => {
   modal.hidden = false;
   document.body.classList.add("modal-open");
 };
-const renderChangelogsModal = (body) => {
-  const items = config.changelogs?.items || [];
-  if (!items.length) {
-    appendEmptyState(body, "No changelogs yet", "Version notes will appear here after the next update is published.");
+const renderChangelogViewer = (body) => {
+  const changelog = config.changelog || {};
+  const entries = changelog.entries || [];
+  const version = document.createElement("p");
+  version.className = "changelog-current-version";
+  version.textContent = `Current version: ${config.meta?.version || entries[0]?.version || "Unversioned"}`;
+  body.append(version);
+  if (!entries.length) {
+    appendEmptyState(body, "No changelog entries", "Release notes will appear here with the next update.");
     return;
   }
   const list = document.createElement("div");
   list.className = "changelog-list";
-  items.forEach((item) => {
-    const entry = document.createElement("article");
-    entry.className = "changelog-entry";
+  entries.forEach((entry) => {
+    const item = document.createElement("article");
+    item.className = "changelog-entry";
     const heading = document.createElement("h3");
-    heading.textContent = item.version || "Update";
+    heading.textContent = entry.version || "Update";
     const date = document.createElement("time");
-    date.textContent = formatNewsDate(item.date);
+    date.textContent = formatNewsDate(entry.date);
     const summary = document.createElement("p");
-    summary.textContent = item.summary || "";
-    entry.append(heading, date, summary, renderMarkdown(item.details || ""));
-    list.append(entry);
+    summary.textContent = entry.summary || "";
+    item.append(heading, date, summary, renderMarkdown(entry.details || ""));
+    list.append(item);
   });
   body.append(list);
 };
@@ -178,12 +183,20 @@ const openModal = (item) => {
     return;
   } else if (item.action === "downloads") {
     renderDownloadsModal(body, item.server);
-  } else if (item.action === "changelogs") {
-    renderChangelogsModal(body);
+} else if (item.action === "changelog") {
+    renderChangelogViewer(body);
   } else if (item.action === "game-guide") {
     const message = document.createElement("p");
     message.textContent = "There is a game guide available in-game. Press H while playing to open the built-in guide.";
-    body.append(message);
+    const actions = document.createElement("div");
+    actions.className = "news-detail__actions";
+    const changelog = document.createElement("button");
+    changelog.className = "modal-action";
+    changelog.type = "button";
+    changelog.textContent = "View Changelog";
+    changelog.addEventListener("click", () => openModal({ label: config.changelog?.title || "Changelog", action: "changelog", type: "Changelog" }));
+    actions.append(changelog);
+    body.append(message, actions);
   } else {
     const mark = document.createElement("div");
     mark.className = "build-mark";
@@ -882,20 +895,3 @@ const initialize = () => {
 };
 
 initialize();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

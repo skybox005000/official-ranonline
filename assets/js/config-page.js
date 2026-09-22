@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   const PASSWORD = "i4ncut33";
   const AUTH_KEY = "ran-online-config-auth";
   const clone = (value) => structuredClone(value);
@@ -11,7 +11,6 @@
   let episodeIndex = -1;
   let sidebarIndex = -1;
   let newsIndex = -1;
-  let changelogIndex = -1;
   let downloadGroupIndex = -1;
   let downloadIndex = -1;
   let dirty = false;
@@ -52,8 +51,6 @@
   const sidebarForm = $("#sidebarForm");
   const newsModal = $("#newsModal");
   const newsForm = $("#newsForm");
-  const changelogModal = $("#changelogModal");
-  const changelogForm = $("#changelogForm");
   const downloadModal = $("#downloadModal");
   const downloadForm = $("#downloadForm");
 
@@ -104,7 +101,6 @@
     renderEpisodes();
     renderSidebarSlides();
     renderNews();
-    renderChangelogs();
     renderDownloads();
   };
 
@@ -171,27 +167,6 @@
         <div class="config-item__actions">
           <button class="button config-item__edit" type="button" data-edit-news="${index}">Edit</button>
           <button class="button config-item__remove" type="button" data-delete-news="${index}">Delete</button>
-        </div>
-      </article>
-    `).join("");
-  };
-  const renderChangelogs = () => {
-    workingConfig.changelogs ??= { title: "Changelogs", items: [] };
-    workingConfig.changelogs.items ??= [];
-    const editor = $("#changelogEditor");
-    if (!workingConfig.changelogs.items.length) {
-      editor.innerHTML = `<div class="config-empty"><strong>No changelogs yet</strong><span>Add a versioned update for players to review.</span></div>`;
-      return;
-    }
-    editor.innerHTML = workingConfig.changelogs.items.map((item, index) => `
-      <article class="config-item">
-        <div class="config-item__summary">
-          <strong>${escapeHtml(item.version || "Unversioned update")} - ${escapeHtml(item.date || "No date")}</strong>
-          <span>${escapeHtml(item.summary || item.details || "")}</span>
-        </div>
-        <div class="config-item__actions">
-          <button class="button config-item__edit" type="button" data-edit-changelog="${index}">Edit</button>
-          <button class="button config-item__remove" type="button" data-delete-changelog="${index}">Delete</button>
         </div>
       </article>
     `).join("");
@@ -342,25 +317,6 @@
     document.body.classList.remove("has-config-editor");
     newsIndex = -1;
   };
-  const openChangelog = (index) => {
-    changelogIndex = index;
-    workingConfig.changelogs ??= { title: "Changelogs", items: [] };
-    workingConfig.changelogs.items ??= [];
-    const item = index < 0
-      ? { version: "", date: new Date().toISOString().slice(0, 10), summary: "", details: "" }
-      : workingConfig.changelogs.items[index];
-    $("#changelogModalTitle").textContent = index < 0 ? "Add Changelog" : "Edit Changelog";
-    $$("[name]", changelogForm).forEach((field) => writeFormField(field, item[field.name]));
-    changelogModal.hidden = false;
-    document.body.classList.add("has-config-editor");
-    changelogForm.elements.version.focus();
-  };
-
-  const closeChangelog = () => {
-    changelogModal.hidden = true;
-    document.body.classList.remove("has-config-editor");
-    changelogIndex = -1;
-  };
   const openDownload = (groupIndex, index) => {
     downloadGroupIndex = groupIndex;
     downloadIndex = index;
@@ -479,19 +435,6 @@
     }
   });
   $("#addNewsButton").addEventListener("click", () => openNews(-1));
-  $("#changelogEditor").addEventListener("click", (event) => {
-    const button = event.target.closest("[data-edit-changelog]");
-    if (button) openChangelog(Number(button.dataset.editChangelog));
-    const deleteButton = event.target.closest("[data-delete-changelog]");
-    if (deleteButton) {
-      const index = Number(deleteButton.dataset.deleteChangelog);
-      if (!confirm(`Delete ${workingConfig.changelogs.items[index].version || "this changelog"}?`)) return;
-      workingConfig.changelogs.items.splice(index, 1);
-      renderChangelogs();
-      setDirty(true, "Changelog deleted. Publish to save it.");
-    }
-  });
-  $("#addChangelogButton").addEventListener("click", () => openChangelog(-1));
   $("#downloadEditor").addEventListener("click", (event) => {
     const button = event.target.closest("[data-edit-download]");
     if (button) openDownload(Number(button.dataset.editDownloadGroup), Number(button.dataset.editDownload));
@@ -550,18 +493,6 @@
     closeNews();
     setDirty(true, "News item updated. Publish to save it.");
   });
-  changelogForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const item = {};
-    $$("[name]", changelogForm).forEach((field) => item[field.name] = field.value.trim());
-    workingConfig.changelogs ??= { title: "Changelogs", items: [] };
-    workingConfig.changelogs.items ??= [];
-    if (changelogIndex < 0) workingConfig.changelogs.items.unshift(item);
-    else workingConfig.changelogs.items[changelogIndex] = item;
-    renderChangelogs();
-    closeChangelog();
-    setDirty(true, "Changelog updated. Publish to save it.");
-  });
   downloadForm.addEventListener("submit", (event) => {
     event.preventDefault();
     syncDownloadTemplates();
@@ -586,11 +517,6 @@
     if (event.target === sidebarModal) closeSidebar();
   });
 
-  $$("#changelogModal .config-editor__close, [data-close-changelog]").forEach((button) =>
-    button.addEventListener("click", closeChangelog));
-  changelogModal.addEventListener("click", (event) => {
-    if (event.target === changelogModal) closeChangelog();
-  });
   $$("#newsModal .config-editor__close, [data-close-news]").forEach((button) =>
     button.addEventListener("click", closeNews));
   newsModal.addEventListener("click", (event) => {
@@ -701,10 +627,3 @@
   else showAuth();
   syncPublishTarget();
 })();
-
-
-
-
-
-
-
