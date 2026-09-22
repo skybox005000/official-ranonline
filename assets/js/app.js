@@ -9,7 +9,6 @@ const menuContent = {
   News: [{ label: "Latest CLPL Development Posts", action: "news" }],
   Guide: [
     { label: "Game Guide", action: "game-guide", type: "Guide" },
-    { label: "Changelogs", action: "changelogs", type: "Changelogs" },
   ],
   Download: [{ label: "Download", action: "downloads", type: "Download" }],
   "About Us": [{ label: "About CLPL Developments", action: "placeholder", type: "About Us" }],
@@ -184,7 +183,15 @@ const openModal = (item) => {
   } else if (item.action === "game-guide") {
     const message = document.createElement("p");
     message.textContent = "There is a game guide available in-game. Press H while playing to open the built-in guide.";
-    body.append(message);
+    const actions = document.createElement("div");
+    actions.className = "news-detail__actions";
+    const changelogs = document.createElement("button");
+    changelogs.className = "modal-action";
+    changelogs.type = "button";
+    changelogs.textContent = "View Changelogs";
+    changelogs.addEventListener("click", () => openModal({ label: "Changelogs", action: "changelogs", type: "Changelogs" }));
+    actions.append(changelogs);
+    body.append(message, actions);
   } else {
     const mark = document.createElement("div");
     mark.className = "build-mark";
@@ -883,6 +890,7 @@ const initialize = () => {
 };
 
 initialize();
+
 
 
 
