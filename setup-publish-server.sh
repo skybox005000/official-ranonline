@@ -84,6 +84,22 @@ publish_block = f"""
     }}
 """
 
+index_redirect_block = """
+    location = /index.html {
+        return 301 /;
+    }
+"""
+
+if "location = /index.html" not in text:
+    marker = "    location = /publish.php"
+    if marker in text:
+        text = text.replace(marker, index_redirect_block + "\n" + marker, 1)
+    else:
+        last_server_close = text.rfind("\n}")
+        if last_server_close == -1:
+            raise SystemExit("Could not find the server block closing brace.")
+        text = text[:last_server_close] + index_redirect_block + text[last_server_close:]
+
 if "location = /publish.php" not in text:
     marker = "    location ~* \\.(?:css|js|jpg|jpeg|gif|png|webp|svg|ico|woff2?)$ {"
     if marker in text:
@@ -114,4 +130,5 @@ echo "Test this URL now:"
 echo "https://${DOMAIN}/publish.php"
 echo "Expected response:"
 echo '{"ok":false,"message":"Use POST to publish changes."}'
+
 
