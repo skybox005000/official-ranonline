@@ -47,7 +47,7 @@ jobs:
           DEPLOY_USER: ${{ secrets.DO_USER }}
           DEPLOY_PATH: ${{ secrets.DO_SITE_PATH }}
         run: |
-          rsync -az --no-times --delete-delay \
+          rsync -az --no-times --no-perms --delete-delay \
             --exclude '/.git/' \
             --exclude '/.github/' \
             --exclude '/assets/js/published-data.js' \
@@ -61,3 +61,4 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DO_SITE_PATH }}
         run: |
           ssh "$DEPLOY_USER@$DEPLOY_HOST" "test -f '$DEPLOY_PATH/index.html' && test -f '$DEPLOY_PATH/assets/js/app.js' && test -f '$DEPLOY_PATH/assets/js/published-data.js'"
+
