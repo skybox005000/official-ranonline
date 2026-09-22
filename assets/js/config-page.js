@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const PASSWORD = "i4ncut33";
   const AUTH_KEY = "ran-online-config-auth";
   const clone = (value) => structuredClone(value);
@@ -627,3 +627,4 @@
   else showAuth();
   syncPublishTarget();
 })();
+

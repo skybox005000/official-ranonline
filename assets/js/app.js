@@ -1,4 +1,4 @@
-const config = window.createSiteConfig
+﻿const config = window.createSiteConfig
   ? window.createSiteConfig(window.siteConfig || {})
   : window.siteConfig;
 
@@ -895,3 +895,4 @@ const initialize = () => {
 };
 
 initialize();
+

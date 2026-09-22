@@ -1,4 +1,4 @@
-const defaultDownloadItems = [
+﻿const defaultDownloadItems = [
   {
     title: "Mega NZ",
     description: "Official RAN Online client download via Mega NZ.",
@@ -135,7 +135,7 @@ const defaultNewsItems = [
   },
   {
     title: "10th Month Top Up Promo",
-    category: "Promotion",
+    category: "Promo",
     color: "#bd5e9c",
     date: "2026-09-04",
     excerpt: "Celebrate the 10th month with the official Top Up Promo, running September 4 to 13, 2026.",
@@ -399,3 +399,4 @@ try {
   window.siteAssetOverrides = {};
 }
 window.resolveSiteAsset = (path) => window.siteAssetOverrides[path] || path;
+
