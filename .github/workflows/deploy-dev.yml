@@ -1,4 +1,4 @@
-name: Deploy Development Site
+﻿name: Deploy Development Site
 
 on:
   push:
@@ -47,7 +47,7 @@ jobs:
           DEPLOY_USER: ${{ secrets.DO_USER }}
           DEPLOY_PATH: ${{ secrets.DO_SITE_PATH }}
         run: |
-          rsync -az --delete-delay \
+          rsync -az --no-times --delete-delay \
             --exclude '/.git/' \
             --exclude '/.github/' \
             --exclude '/assets/js/published-data.js' \
