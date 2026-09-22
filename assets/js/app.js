@@ -183,15 +183,7 @@ const openModal = (item) => {
   } else if (item.action === "game-guide") {
     const message = document.createElement("p");
     message.textContent = "There is a game guide available in-game. Press H while playing to open the built-in guide.";
-    const actions = document.createElement("div");
-    actions.className = "news-detail__actions";
-    const changelogs = document.createElement("button");
-    changelogs.className = "modal-action";
-    changelogs.type = "button";
-    changelogs.textContent = "View Changelogs";
-    changelogs.addEventListener("click", () => openModal({ label: "Changelogs", action: "changelogs", type: "Changelogs" }));
-    actions.append(changelogs);
-    body.append(message, actions);
+    body.append(message);
   } else {
     const mark = document.createElement("div");
     mark.className = "build-mark";
@@ -890,6 +882,7 @@ const initialize = () => {
 };
 
 initialize();
+
 
 
 
