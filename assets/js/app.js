@@ -50,6 +50,7 @@ const newsCategoryColors = Object.freeze({
   "Test Download": "#467fc1",
 });
 const newsColorFor = (item) => item.color || newsCategoryColors[item.category] || "#c6923d";
+const sortNewsByDate = (items) => [...items].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
 const formatNewsDate = (value) => {
   const date = new Date(`${value || ""}T00:00:00`);
   return Number.isNaN(date.getTime()) ? (value || "Latest update") : new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(date);
@@ -108,7 +109,7 @@ const renderNewsList = () => {
   byId("modal-title").textContent = config.news?.title || "Latest News";
   const body = byId("modal-body");
   body.replaceChildren();
-  const items = config.news?.items || [];
+  const items = sortNewsByDate(config.news?.items || []);
   if (!items.length) {
     appendEmptyState(body, "No news yet", "Official updates will appear here once they are published.");
   } else {
@@ -578,7 +579,7 @@ const renderNavigation = () => {
 const renderNewsPage = () => {
   const list = byId("game-list");
   const pagination = byId("game-pagination");
-  const items = config.news?.items || [];
+  const items = sortNewsByDate(config.news?.items || []);
   const pageSize = 5;
   byId("games-title").textContent = config.news?.title || "Latest News";
 
@@ -895,4 +896,5 @@ const initialize = () => {
 };
 
 initialize();
+
 
