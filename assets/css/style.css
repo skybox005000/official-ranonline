@@ -539,3 +539,63 @@ body::before {
     linear-gradient(90deg, #110e08d9 0, #251b0dc4 55%, #110d08d6 100%),
     url('../img/legacy/classic-city-backdrop.jpg') 50% 0 / 990px 500px repeat-x;
 }
+
+/* Temporarily replace the hero with the archival city canvas. */
+.hero {
+  height: 70px;
+  overflow: visible;
+  background: transparent;
+  border-bottom: 1px solid #8a672c;
+  box-shadow: 0 2px 12px #000c;
+}
+.hero::before,
+.hero::after,
+.masthead {
+  display: none;
+}
+.nav {
+  top: 0;
+  bottom: auto;
+}
+.heritage-egames {
+  position: fixed;
+  top: 10px;
+  right: max(20px, calc((100% - var(--content-width)) / 2 + 16px));
+}
+.page-shell {
+  margin-top: 142px;
+}
+.games-panel {
+  background-image:
+    url('../img/legacy/frame-top-left.jpg'),
+    url('../img/legacy/frame-top-right.jpg'),
+    url('../img/legacy/frame-bottom-left.jpg'),
+    url('../img/legacy/frame-bottom-right.jpg'),
+    linear-gradient(90deg, #100e09e0, #060504e8 28%, #0c0906e3 74%, #060504e8),
+    url('../img/legacy/classic-city-backdrop.jpg');
+  background-position: left top, right top, left bottom, right bottom, center, 50% 0;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat-x;
+  background-size: auto, auto, auto, auto, auto, 990px 500px;
+}
+.games-panel::before {
+  background:
+    linear-gradient(90deg, #050403cf 0, #08070557 42%, #0807059e 100%),
+    linear-gradient(#08060400, #080604d5 88%),
+    url('../img/legacy/classic-city-backdrop.jpg') 50% 0 / 990px 500px repeat-x;
+}
+.section-title {
+  background:
+    linear-gradient(90deg, #110e08b8 0, #251b0d8a 55%, #110d08ba 100%),
+    url('../img/legacy/classic-city-backdrop.jpg') 50% -158px / 990px 500px no-repeat;
+}
+@media (max-width: 820px) {
+  .hero { height: 120px; }
+  .nav { height: 120px; }
+  .heritage-egames { position: absolute; top: 78px; right: 14px; }
+  .page-shell { margin-top: 108px; }
+}
+@media (max-width: 600px) {
+  .hero { height: 120px; }
+  .page-shell { margin-top: 86px; }
+  .heritage-egames { top: 78px; right: 12px; }
+}
