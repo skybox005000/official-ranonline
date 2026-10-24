@@ -449,3 +449,35 @@ body {
   .game-list { gap: 10px; padding-top: 10px; }
   .game-card, .news-page-card { min-height: 0; }
 }
+
+/* Original 2006 portal materials. */
+.heritage-egames {
+  position: absolute;
+  z-index: 3;
+  right: max(28px, calc((100% - var(--content-width)) / 2 + 22px));
+  top: 20px;
+  display: grid;
+  place-items: center;
+  width: 49px;
+  height: 49px;
+  padding: 4px;
+  background: linear-gradient(135deg, #20170b, #080604);
+  border: 1px solid #8d6c37;
+  box-shadow: inset 0 0 0 2px #070604, 0 4px 12px #000b;
+}
+.heritage-egames::before,.heritage-egames::after { content: ''; position: absolute; width: 7px; height: 7px; background: #c39a4d; transform: rotate(45deg); }
+.heritage-egames::before { top: -4px; left: -4px; }
+.heritage-egames::after { right: -4px; bottom: -4px; }
+.heritage-egames img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.heritage-egames:hover { border-color: #dfba67; filter: brightness(1.12); }
+.games-panel {
+  background-image: url('../img/legacy/frame-top-left.jpg'), url('../img/legacy/frame-top-right.jpg'), url('../img/legacy/frame-bottom-left.jpg'), url('../img/legacy/frame-bottom-right.jpg'), linear-gradient(90deg, #100e09ed, #060504f5 28%, #0c0906f2 74%, #060504f5), repeating-linear-gradient(0deg, transparent 0 3px, #ffffff03 4px 5px);
+  background-position: left top, right top, left bottom, right bottom, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat;
+  background-size: auto, auto, auto, auto, auto, auto;
+}
+.section-title { border-inline: 1px solid #604820; box-shadow: inset 0 1px #d8b56a5e, inset 0 -1px #060504, inset 13px 0 0 #080604, inset -13px 0 0 #080604, 0 5px 11px #000a; }
+@media (max-width: 600px) {
+  .heritage-egames { right: 12px; top: 10px; width: 34px; height: 34px; padding: 3px; }
+  .heritage-egames::before,.heritage-egames::after { width: 5px; height: 5px; }
+}
