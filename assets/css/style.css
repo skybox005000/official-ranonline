@@ -497,3 +497,45 @@ body {
 @media (max-width: 600px) {
   body { background-position: center, center, center 300px; background-size: auto, auto, auto 500px; }
 }
+
+/* Matches the 2011 #page rule: centered, top-aligned, repeat-x backdrop. */
+html {
+  background-color: #090805;
+  background-image: url('../img/legacy/classic-city-backdrop.jpg');
+  background-position: 50% 0;
+  background-repeat: repeat-x;
+  background-size: 990px 500px;
+}
+
+body {
+  background: transparent;
+}
+
+body::before {
+  background:
+    linear-gradient(90deg, #000d 0, #0005 16%, transparent 34%, transparent 66%, #0005 84%, #000d 100%),
+    linear-gradient(#0002 0, #0008 56%, #030201ee 100%);
+}
+
+.nav {
+  background-image:
+    linear-gradient(#171109e8 0, #080604f4 17%, #110d08ef 52%, #070604f5 100%),
+    url('../img/legacy/classic-city-backdrop.jpg');
+  background-position: center, 50% 0;
+  background-size: auto, 990px 500px;
+  background-repeat: repeat, repeat-x;
+}
+
+.games-panel::before {
+  opacity: .76;
+  background:
+    linear-gradient(90deg, #050403dd 0, #08070586 42%, #080705b8 100%),
+    linear-gradient(#08060428, #080604cf 88%),
+    url('../img/legacy/classic-city-backdrop.jpg') 50% 0 / 990px 500px repeat-x;
+}
+
+.section-title {
+  background:
+    linear-gradient(90deg, #110e08d9 0, #251b0dc4 55%, #110d08d6 100%),
+    url('../img/legacy/classic-city-backdrop.jpg') 50% 0 / 990px 500px repeat-x;
+}
