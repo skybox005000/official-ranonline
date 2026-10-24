@@ -481,3 +481,19 @@ body {
   .heritage-egames { right: 12px; top: 10px; width: 34px; height: 34px; padding: 3px; }
   .heritage-egames::before,.heritage-egames::after { width: 5px; height: 5px; }
 }
+
+/* 2011 RAN E-Games city tile, retained as the portal backdrop. */
+body {
+  background-image:
+    linear-gradient(90deg, #000e 0, #0005 17%, transparent 35%, transparent 65%, #0005 83%, #000e 100%),
+    linear-gradient(#050403aa 0, #070604ca 36%, #070604f0 100%),
+    url('../img/legacy/classic-city-backdrop.jpg');
+  background-position: center, center, center 390px;
+  background-size: auto, auto, 990px auto;
+  background-repeat: repeat, repeat, repeat-y;
+  background-attachment: fixed, fixed, fixed;
+}
+
+@media (max-width: 600px) {
+  body { background-position: center, center, center 300px; background-size: auto, auto, auto 500px; }
+}
