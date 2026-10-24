@@ -1,4 +1,4 @@
-﻿const defaultDownloadItems = [
+ const defaultDownloadItems = [
   {
     title: "Mega NZ",
     description: "Official RAN Online client download via Mega NZ.",
@@ -392,10 +392,16 @@ const loadSavedConfig = () => {
   }
 };
 
-window.siteConfig = createSiteConfig(loadSavedConfig());
-try {
-  window.siteAssetOverrides = JSON.parse(localStorage.getItem(window.ASSET_STORAGE_KEY)) ?? {};
-} catch {
+// Browser storage is only a local preview. Deployed pages must always use published-data.js.
+const localPreviewConfig = window.isLocalRun() ? loadSavedConfig() : (window.siteConfig || {});
+window.siteConfig = createSiteConfig(localPreviewConfig);
+if (window.isLocalRun()) {
+  try {
+    window.siteAssetOverrides = JSON.parse(localStorage.getItem(window.ASSET_STORAGE_KEY)) ?? {};
+  } catch {
+    window.siteAssetOverrides = {};
+  }
+} else {
   window.siteAssetOverrides = {};
 }
 window.resolveSiteAsset = (path) => window.siteAssetOverrides[path] || path;

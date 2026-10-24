@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   const PASSWORD = "i4ncut33";
   const AUTH_KEY = "ran-online-config-auth";
   const clone = (value) => structuredClone(value);
@@ -87,9 +87,11 @@
 
   const syncPublishTarget = () => {
     const mode = getPublishMode();
-    publishTargetMessage.textContent = mode === "local"
-      ? "Publishing in local server"
-      : "Publishing in prod server";
+    const isLocalPreview = mode === "local";
+    publishTargetMessage.textContent = isLocalPreview
+      ? "Browser preview only. Open the deployed Config page to publish for everyone."
+      : "Publishing to the live site for everyone.";
+    publishButton.textContent = isLocalPreview ? "Save Browser Preview" : "Publish Changes";
   };
 
   const renderForm = () => {
@@ -538,7 +540,7 @@
     if (getPublishMode() === "local") {
       localStorage.setItem(window.CONFIG_STORAGE_KEY, JSON.stringify(workingConfig));
       localStorage.setItem(window.ASSET_STORAGE_KEY, JSON.stringify(imageAssets));
-      setDirty(false, "Changes published locally.");
+      setDirty(false, "Saved in this browser only. These changes are not published.");
       return;
     }
 
